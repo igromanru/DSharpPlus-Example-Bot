@@ -1,1 +1,1 @@
-# DSharpPlus-Example-Bot
+# DSharpPlus v4 Example Bot
