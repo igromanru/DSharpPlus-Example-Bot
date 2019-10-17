@@ -54,6 +54,8 @@ namespace DSharpPlus_Example_Bot
             _commands.RegisterCommands<UserCommands>();
             _commands.RegisterCommands<AdminCommands>();
             _commands.RegisterCommands<OwnerCommands>();
+            
+            _commands.CommandErrored += OnCommandError;
         }
 
         private void RegisterEvents()
@@ -74,6 +76,13 @@ namespace DSharpPlus_Example_Bot
         private Task OnReady(ReadyEventArgs e)
         {
             Logger.Info("The bot is online");
+            return Task.CompletedTask;
+        }
+
+        private Task OnCommandError(CommandErrorEventArgs e)
+        {
+            e.Context.RespondAsync(e.Exception.Message);
+            e.Handled = true;
             return Task.CompletedTask;
         }
 

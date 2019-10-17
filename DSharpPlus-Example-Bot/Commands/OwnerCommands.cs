@@ -11,6 +11,11 @@ namespace DSharpPlus_Example_Bot.Commands
     [RequireOwner]
     public class OwnerCommands : BaseCommandModule
     {
+        /// <summary>
+        /// Prints out the latency between the bot and discord api servers.
+        /// </summary>
+        /// <param name="commandContext">CommandContext from the message that has executed this command.</param>
+        /// <returns></returns>
         [Command("ping"), Description("Shows bot ping to discord api server")]
         public async Task PingAsync(CommandContext commandContext)
         {
