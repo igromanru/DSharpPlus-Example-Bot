@@ -32,6 +32,7 @@ namespace DSharpPlus_Example_Bot
                 LogLevel = LogLevel.Debug
             });
 
+            // Activating Interactivity module for the DiscordClient
             Discord.UseInteractivity(new InteractivityConfiguration());
 
             RegisterCommands();
@@ -50,11 +51,11 @@ namespace DSharpPlus_Example_Bot
                 StringPrefixes = SettingsService.Instance.Cfg.Prefixes,
             };
             _commands = Discord.UseCommandsNext(commandsNextConfiguration);
-
+            // Registering command classes
             _commands.RegisterCommands<UserCommands>();
             _commands.RegisterCommands<AdminCommands>();
             _commands.RegisterCommands<OwnerCommands>();
-            
+            // Registering OnCommandError method for the CommandErrored event
             _commands.CommandErrored += OnCommandError;
         }
 
@@ -81,8 +82,8 @@ namespace DSharpPlus_Example_Bot
 
         private Task OnCommandError(CommandErrorEventArgs e)
         {
+            // Send command error message as response.
             e.Context.RespondAsync(e.Exception.Message);
-            e.Handled = true;
             return Task.CompletedTask;
         }
 
