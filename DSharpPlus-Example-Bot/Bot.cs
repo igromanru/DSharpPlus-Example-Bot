@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
+using DSharpPlus_Example_Bot.Commands;
 using DSharpPlus_Example_Bot.Configurations;
+using NLog;
+using LogLevel = DSharpPlus.LogLevel;
 
 namespace DSharpPlus_Example_Bot
 {
     public class Bot : IDisposable
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private bool _disposed;
         private bool _run;
 
@@ -24,18 +28,39 @@ namespace DSharpPlus_Example_Bot
             {
                 Token = SettingsService.Instance.Cfg.Token,
                 TokenType = TokenType.Bot,
-                UseInternalLogHandler = true,
+                UseInternalLogHandler = false,
                 LogLevel = LogLevel.Debug
             });
 
             Discord.UseInteractivity(new InteractivityConfiguration());
+
+            RegisterCommands();
+            RegisterEvents();
         }
 
         ~Bot()
         {
             Dispose(false);
         }
-        
+
+        private void RegisterCommands()
+        {
+            var commandsNextConfiguration = new CommandsNextConfiguration
+            {
+                StringPrefixes = SettingsService.Instance.Cfg.Prefixes,
+            };
+            _commands = Discord.UseCommandsNext(commandsNextConfiguration);
+
+            _commands.RegisterCommands<UserCommands>();
+            _commands.RegisterCommands<AdminCommands>();
+            _commands.RegisterCommands<OwnerCommands>();
+        }
+
+        private void RegisterEvents()
+        {
+            Discord.Ready += OnReady;
+        }
+
         public async Task RunAsync()
         {
             _run = true;
@@ -44,6 +69,12 @@ namespace DSharpPlus_Example_Bot
             {
                 await Task.Delay(200);
             }
+        }
+
+        private Task OnReady(ReadyEventArgs e)
+        {
+            Logger.Info("The bot is online");
+            return Task.CompletedTask;
         }
 
         protected virtual void Dispose(bool disposing)

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace DSharpPlus_Example_Bot
 {
     class Program
