@@ -71,5 +71,13 @@ namespace DSharpPlus_Example_Bot.Commands
                 await commandContext.RespondAsync("Error: the question can't be empty");
             }
         }
+
+        [Command("sendtochannel"), Description("Send a message to a special channel")]
+        public async Task SendToChannelAsync(CommandContext commandContext, 
+            [Description("Target discord channel")] DiscordChannel targetChannel, 
+            [Description("Message to send"), RemainingText] string message)
+        {
+            await targetChannel.SendMessageAsync(message);
+        }
     }
 }

@@ -55,6 +55,8 @@ namespace DSharpPlus_Example_Bot
             _commands.RegisterCommands<UserCommands>();
             _commands.RegisterCommands<AdminCommands>();
             _commands.RegisterCommands<OwnerCommands>();
+            _commands.RegisterCommands<DemonstrationCommands>();
+            
             // Registering OnCommandError method for the CommandErrored event
             _commands.CommandErrored += OnCommandError;
         }
