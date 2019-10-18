@@ -27,9 +27,7 @@ namespace DSharpPlus_Example_Bot
             Discord = new DiscordClient(new DiscordConfiguration
             {
                 Token = SettingsService.Instance.Cfg.Token,
-                TokenType = TokenType.Bot,
-                UseInternalLogHandler = false,
-                LogLevel = LogLevel.Debug
+                TokenType = TokenType.Bot
             });
 
             // Activating Interactivity module for the DiscordClient
@@ -64,6 +62,8 @@ namespace DSharpPlus_Example_Bot
         private void RegisterEvents()
         {
             Discord.Ready += OnReady;
+
+            Discord.DebugLogger.LogMessageReceived += OnLogMessageReceived;
         }
 
         public async Task RunAsync()
@@ -80,6 +80,34 @@ namespace DSharpPlus_Example_Bot
         {
             Logger.Info("The bot is online");
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Logs DSharpPlus internal errors with NLog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">DebugLogMessageEventArgs object</param>
+        private void OnLogMessageReceived(object sender, DebugLogMessageEventArgs e)
+        {
+            var message = $"{e.Application}: {e.Message}";
+            switch (e.Level)
+            {
+                case LogLevel.Debug:
+                    Logger.Debug(e.Exception, message);
+                    break;
+                case LogLevel.Info:
+                    Logger.Info(e.Exception, message);
+                    break;
+                case LogLevel.Warning:
+                    Logger.Warn(e.Exception, message);
+                    break;
+                case LogLevel.Error:
+                    Logger.Error(e.Exception, message);
+                    break;
+                case LogLevel.Critical:
+                    Logger.Fatal(e.Exception, message);
+                    break;
+            }
         }
 
         private Task OnCommandError(CommandErrorEventArgs e)
