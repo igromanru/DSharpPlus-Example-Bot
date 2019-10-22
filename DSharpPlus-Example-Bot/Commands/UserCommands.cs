@@ -8,7 +8,7 @@ namespace DSharpPlus_Example_Bot.Commands
     /// <summary>
     /// Commands that can be used by @everyone. 
     /// </summary>
-    public class UserCommands : BaseCommandModule
+    public sealed class UserCommands : BaseCommandModule
     {
 
         // Holding the Random instance to improve multiple usages

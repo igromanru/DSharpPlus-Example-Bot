@@ -9,7 +9,7 @@ namespace DSharpPlus_Example_Bot.Commands
     /// The bot owner is the user who has created bots token.
     /// </summary>
     [RequireOwner]
-    public class OwnerCommands : BaseCommandModule
+    public sealed class OwnerCommands : BaseCommandModule
     {
         /// <summary>
         /// Prints out the latency between the bot and discord api servers.

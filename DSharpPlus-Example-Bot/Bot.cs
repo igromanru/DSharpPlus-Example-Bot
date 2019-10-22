@@ -4,6 +4,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
+using DSharpPlus.VoiceNext;
 using DSharpPlus_Example_Bot.Commands;
 using DSharpPlus_Example_Bot.Configurations;
 using NLog;
@@ -32,6 +33,8 @@ namespace DSharpPlus_Example_Bot
 
             // Activating Interactivity module for the DiscordClient
             Discord.UseInteractivity(new InteractivityConfiguration());
+            // Activating VoiceNext module
+            Discord.UseVoiceNext(new VoiceNextConfiguration());
 
             RegisterCommands();
             RegisterEvents();
@@ -54,7 +57,8 @@ namespace DSharpPlus_Example_Bot
             _commands.RegisterCommands<AdminCommands>();
             _commands.RegisterCommands<OwnerCommands>();
             _commands.RegisterCommands<DemonstrationCommands>();
-            
+            _commands.RegisterCommands<VoiceCommands>();
+
             // Registering OnCommandError method for the CommandErrored event
             _commands.CommandErrored += OnCommandError;
         }

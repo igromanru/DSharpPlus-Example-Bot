@@ -9,7 +9,7 @@ namespace DSharpPlus_Example_Bot.Commands
     /// The code shouldn't be used exactly this way as it is, it's just there to give you some ideas.
     /// </summary>
     [Group("demo"), Aliases("d"), Description("Group of commands for demonstration purpose.")]
-    public class DemonstrationCommands : BaseCommandModule
+    public sealed class DemonstrationCommands : BaseCommandModule
     {
         /// <summary>
         /// With this command you can send a message to any discord server (Guild) which the bot is a part of,

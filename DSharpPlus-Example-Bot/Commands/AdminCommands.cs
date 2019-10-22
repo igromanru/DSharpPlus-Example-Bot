@@ -14,7 +14,7 @@ namespace DSharpPlus_Example_Bot.Commands
     /// Commands that can only be used by Server Administrators. The Administrator permission is required (or to be the server owner).
     /// </summary>
     [RequirePermissions(Permissions.Administrator)]
-    public class AdminCommands : BaseCommandModule
+    public sealed class AdminCommands : BaseCommandModule
     {
         /// <summary>
         /// A simple emoji based yes/no poll.
