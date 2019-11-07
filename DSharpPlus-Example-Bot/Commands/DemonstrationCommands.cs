@@ -6,7 +6,7 @@ namespace DSharpPlus_Example_Bot.Commands
 {
     /// <summary>
     /// Class with demonstration of possibilities.
-    /// The code shouldn't be used exactly this way as it is, it's just there to give you some ideas.
+    /// Disclaimer: The code shouldn't be used exactly this way as it is, it's just there to give you some ideas.
     /// </summary>
     [Group("demo"), Aliases("d"), Description("Group of commands for demonstration purpose.")]
     public sealed class DemonstrationCommands : BaseCommandModule
