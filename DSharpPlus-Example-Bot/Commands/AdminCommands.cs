@@ -17,7 +17,7 @@ namespace DSharpPlus_Example_Bot.Commands
     [RequirePermissions(Permissions.Administrator)]
     public sealed class AdminCommands : BaseCommandModule
     {
-        private DiscordEmoji[] PollEmojiCache { get; set; }
+        private DiscordEmoji[] _pollEmojiCache;
 
         /// <summary>
         /// A simple emoji based yes/no poll.
@@ -33,9 +33,9 @@ namespace DSharpPlus_Example_Bot.Commands
             {
                 var client = commandContext.Client;
                 var interactivity = client.GetInteractivity();
-                if (PollEmojiCache == null)
+                if (_pollEmojiCache == null)
                 {
-                    PollEmojiCache =  new[] {
+                    _pollEmojiCache =  new[] {
                         DiscordEmoji.FromName(client, ":white_check_mark:"),
                         DiscordEmoji.FromName(client, ":x:")
                     };
@@ -48,7 +48,7 @@ namespace DSharpPlus_Example_Bot.Commands
                 var pollStartMessage = await commandContext.RespondAsync(pollStartText.ToString());
 
                 // DoPollAsync adds automatically emojis out from an emoji array to a special message and waits for the "duration" of time to calculate results.
-                var pollResult = await interactivity.DoPollAsync(pollStartMessage, PollEmojiCache, PollBehaviour.Default, duration);
+                var pollResult = await interactivity.DoPollAsync(pollStartMessage, _pollEmojiCache, PollBehaviour.Default, duration);
                 var yesVotes = pollResult[0].Total;
                 var noVotes = pollResult[1].Total;
 

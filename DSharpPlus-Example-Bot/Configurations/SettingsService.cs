@@ -9,64 +9,44 @@ namespace DSharpPlus_Example_Bot.Configurations
     /// </summary>
     public sealed class SettingsService
     {
-        private const string DefaultConfigLocation = "bot.cfg";
-
-        private static readonly object SyncObj = new object();
-
-        private static SettingsService _instance;
-        public static SettingsService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (SyncObj)
-                    {
-                        _instance = new SettingsService();
-                    }
-                }
-                return _instance;
-            }
-        }
+        public const string DefaultConfigFile = "bot.cfg";
         
         /// <summary>
-        /// Settings object
+        /// Serializes Settings object to JSON and writes it to a file
         /// </summary>
-        public Settings Cfg { get; private set; }
-
-        private SettingsService()
+        /// <param name="configFile">Configurations file<param>
+        /// <param name="settings">Settings object to save</param>
+        public void SaveToFile(string configFile, Settings settings)
         {
-            if (File.Exists(DefaultConfigLocation))
-            {
-                LoadFromFile();
-            }
-
-            if (Cfg == null)
-            {
-                // If not exists, creates a new Settings object and saves it to the file to use as template. 
-                Cfg = new Settings();
-                SaveToFile();
-            }
+            File.WriteAllText(configFile, JsonConvert.SerializeObject(settings));
         }
 
         /// <summary>
-        /// Serializes <c>this.Cfg</c> to JSON and writes it to the default file.
+        /// Serializes Settings object to JSON and writes it to default config file
         /// </summary>
-        public void SaveToFile()
+        /// <param name="settings"></param>
+        public void SaveToFile(Settings settings)
         {
-            using (var file = File.CreateText(DefaultConfigLocation))
-            {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(file, Cfg);
-            }
+            SaveToFile(DefaultConfigFile, settings);
         }
 
         /// <summary>
-        /// Reads default config file and deserializes JSON to <c>this.Cfg</c>.
+        /// Deserializes a file to a Settings object
         /// </summary>
-        public void LoadFromFile()
+        /// <param name="configFile">File to deserialize</param>
+        /// <returns>deserialized Settings object</returns>
+        public Settings LoadFromFile(string configFile)
         {
-            Cfg = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(DefaultConfigLocation));
+            return JsonConvert.DeserializeObject<Settings>(File.ReadAllText(configFile));
+        }
+
+        /// <summary>
+        /// Deserializes default config file to a Settings object
+        /// </summary>
+        /// <returns>deserialized Settings object</returns>
+        public Settings LoadFromFile()
+        {
+            return LoadFromFile(DefaultConfigFile);
         }
     }
 }

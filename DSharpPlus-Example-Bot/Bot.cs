@@ -20,12 +20,15 @@ namespace DSharpPlus_Example_Bot
         private CommandsNextExtension CommandsNext { get; set; }
         private bool IsRunning { get; set; }
         private bool IsDisposed { get; set; }
+        private Settings Settings { get; }
 
-        public Bot()
+        public Bot(Settings settings)
         {
+            Settings = settings;
+
             Discord = new DiscordClient(new DiscordConfiguration
             {
-                Token = SettingsService.Instance.Cfg.Token,
+                Token = Settings.Token,
                 TokenType = TokenType.Bot
             });
 
@@ -47,7 +50,7 @@ namespace DSharpPlus_Example_Bot
         {
             var commandsNextConfiguration = new CommandsNextConfiguration
             {
-                StringPrefixes = SettingsService.Instance.Cfg.Prefixes,
+                StringPrefixes = Settings.Prefixes,
             };
             CommandsNext = Discord.UseCommandsNext(commandsNextConfiguration);
             // Registering command classes
@@ -70,14 +73,16 @@ namespace DSharpPlus_Example_Bot
 
         public async Task RunAsync()
         {
-            if (!IsRunning)
+            if (IsRunning)
             {
-                await Discord.ConnectAsync();
-                IsRunning = true;
-                while (IsRunning)
-                {
-                    await Task.Delay(200);
-                }
+                throw new MethodAccessException("The bot is already running");
+            }
+
+            await Discord.ConnectAsync();
+            IsRunning = true;
+            while (IsRunning)
+            {
+                await Task.Delay(200);
             }
         }
 
