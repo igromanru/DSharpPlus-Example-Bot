@@ -7,7 +7,7 @@ namespace DSharpPlus_Example_Bot
         {
             using (var bot = new Bot())
             {   
-                bot.RunAsync().Wait();
+                bot.RunAsync().GetAwaiter().GetResult();
             }
         }
     }

@@ -21,7 +21,7 @@ namespace DSharpPlus_Example_Bot.Commands
         /// <param name="channelId"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        [Command("sendtoguildchannel"), Aliases("stgc"), Description("Send a message to a specified channel in a special guild")]
+        [Command("sendtoguildchannel"), Aliases("stgc"), Description("Send a message to a specified channel in a special guild"), RequireOwner]
         public async Task SendToChannelAsync(CommandContext commandContext, 
             [Description("Id of the target guild")] ulong guildId, 
             [Description("Id of the target channel")] ulong channelId,

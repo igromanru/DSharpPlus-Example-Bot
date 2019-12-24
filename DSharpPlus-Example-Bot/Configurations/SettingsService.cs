@@ -66,11 +66,7 @@ namespace DSharpPlus_Example_Bot.Configurations
         /// </summary>
         public void LoadFromFile()
         {
-            using (var file = File.OpenText(DefaultConfigLocation))
-            {
-                var serializer = new JsonSerializer();
-                Cfg = (Settings) serializer.Deserialize(file, typeof(Settings));
-            }
+            Cfg = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(DefaultConfigLocation));
         }
     }
 }

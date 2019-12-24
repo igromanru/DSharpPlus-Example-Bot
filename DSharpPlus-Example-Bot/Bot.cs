@@ -16,12 +16,10 @@ namespace DSharpPlus_Example_Bot
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private bool _disposed;
-        private bool _run;
-
-        private CommandsNextExtension _commands;
-
         private DiscordClient Discord { get; }
+        private CommandsNextExtension CommandsNext { get; set; }
+        private bool IsRunning { get; set; }
+        private bool IsDisposed { get; set; }
 
         public Bot()
         {
@@ -51,16 +49,16 @@ namespace DSharpPlus_Example_Bot
             {
                 StringPrefixes = SettingsService.Instance.Cfg.Prefixes,
             };
-            _commands = Discord.UseCommandsNext(commandsNextConfiguration);
+            CommandsNext = Discord.UseCommandsNext(commandsNextConfiguration);
             // Registering command classes
-            _commands.RegisterCommands<UserCommands>();
-            _commands.RegisterCommands<AdminCommands>();
-            _commands.RegisterCommands<OwnerCommands>();
-            _commands.RegisterCommands<DemonstrationCommands>();
-            _commands.RegisterCommands<VoiceCommands>();
+            CommandsNext.RegisterCommands<UserCommands>();
+            CommandsNext.RegisterCommands<AdminCommands>();
+            CommandsNext.RegisterCommands<OwnerCommands>();
+            CommandsNext.RegisterCommands<DemonstrationCommands>();
+            CommandsNext.RegisterCommands<VoiceCommands>();
 
             // Registering OnCommandError method for the CommandErrored event
-            _commands.CommandErrored += OnCommandError;
+            CommandsNext.CommandErrored += OnCommandError;
         }
 
         private void RegisterEvents()
@@ -72,11 +70,14 @@ namespace DSharpPlus_Example_Bot
 
         public async Task RunAsync()
         {
-            _run = true;
-            await Discord.ConnectAsync();
-            while (_run)
+            if (!IsRunning)
             {
-                await Task.Delay(200);
+                await Discord.ConnectAsync();
+                IsRunning = true;
+                while (IsRunning)
+                {
+                    await Task.Delay(200);
+                }
             }
         }
 
@@ -123,13 +124,13 @@ namespace DSharpPlus_Example_Bot
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (IsDisposed) return;
 
             if (disposing)
             {
                 Discord.Dispose();
             }
-            _disposed = true;
+            IsDisposed = true;
         }
 
         public void Dispose()

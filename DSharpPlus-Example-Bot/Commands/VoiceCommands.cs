@@ -70,7 +70,7 @@ namespace DSharpPlus_Example_Bot.Commands
             if (voiceNextConnection != null)
             {
                 voiceNextConnection.SendSpeaking();
-                using (var transmitStream = voiceNextConnection.GetTransmitStream())
+                var transmitStream = voiceNextConnection.GetTransmitStream();
                 using (var reader = new WaveFileReader("Flurry.wav"))
                 {
                     await reader.CopyToAsync(transmitStream);
