@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00643" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00643" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="4.0.0-nightly-00643" />
-    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00643" />
+    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00648" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00648" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.0.0-nightly-00648" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00648" />
     <PackageReference Include="NAudio" Version="1.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NLog" Version="4.6.8" />
   </ItemGroup>
 
   <ItemGroup>
