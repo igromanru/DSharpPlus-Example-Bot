@@ -48,7 +48,7 @@ namespace DSharpPlus_Example_Bot.Commands
                 var pollStartMessage = await commandContext.RespondAsync(pollStartText.ToString());
 
                 // DoPollAsync adds automatically emojis out from an emoji array to a special message and waits for the "duration" of time to calculate results.
-                var pollResult = await interactivity.DoPollAsync(pollStartMessage, _pollEmojiCache, PollBehaviour.Default, duration);
+                var pollResult = await interactivity.DoPollAsync(pollStartMessage, _pollEmojiCache, PollBehaviour.DeleteEmojis, duration);
                 var yesVotes = pollResult[0].Total;
                 var noVotes = pollResult[1].Total;
 

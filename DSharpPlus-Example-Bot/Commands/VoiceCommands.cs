@@ -69,13 +69,13 @@ namespace DSharpPlus_Example_Bot.Commands
             var voiceNextConnection = voiceNext.GetConnection(commandContext.Guild);
             if (voiceNextConnection != null)
             {
-                voiceNextConnection.SendSpeaking();
+                await voiceNextConnection.SendSpeakingAsync();
                 var transmitStream = voiceNextConnection.GetTransmitStream();
                 using (var reader = new WaveFileReader("Flurry.wav"))
                 {
                     await reader.CopyToAsync(transmitStream);
                 }
-                voiceNextConnection.SendSpeaking(false);
+                await voiceNextConnection.SendSpeakingAsync(false);
             }
             else
             {
@@ -97,7 +97,7 @@ namespace DSharpPlus_Example_Bot.Commands
             var voiceNextConnection = voiceNext.GetConnection(commandContext.Guild);
             if (voiceNextConnection != null)
             {
-                voiceNextConnection.SendSpeaking();
+                await voiceNextConnection.SendSpeakingAsync();
                 var processStartInfo = new ProcessStartInfo
                 {
                     FileName = "ffmpeg",
@@ -111,7 +111,7 @@ namespace DSharpPlus_Example_Bot.Commands
                     var ffmpegOutputStream = ffmpeg.StandardOutput.BaseStream;
                     await ffmpegOutputStream.CopyToAsync(transmitStream);
                 }
-                voiceNextConnection.SendSpeaking(false);
+                await voiceNextConnection.SendSpeakingAsync(false);
             }
             else
             {
